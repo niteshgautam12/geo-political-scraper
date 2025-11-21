@@ -1,1 +1,1 @@
-![image alt](Screenshot 2025-11-21 at 1.03.13 PM.png)
+![image alt]([Screenshot 2025-11-21 at 1.03.13 PM.png](https://github.com/niteshgautam12/geo-political-scraper/blob/5128fe3e1ecb84117b77c6e04fd22b03b7f53ab0/ss/Screenshot%202025-11-21%20at%201.03.13%E2%80%AFPM.png))
