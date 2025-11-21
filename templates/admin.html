@@ -1,0 +1,61 @@
+<!-- templates/admin.html -->
+{% extends "layout.html" %}
+{% block title %}Admin — Manage Sources{% endblock %}
+
+{% block content %}
+<div class="card mb-4">
+  <div class="card-body">
+    <h3 class="mb-3">Add new source</h3>
+    <form method="post" action="{{ url_for('admin_add') }}">
+      <div class="row g-2">
+        <div class="col-md-3">
+          <input class="form-control" name="token" placeholder="admin token" required>
+        </div>
+        <div class="col-md-3">
+          <input class="form-control" name="name" placeholder="Source name" required>
+        </div>
+        <div class="col-md-2">
+          <select class="form-select" name="type">
+            <option value="rss">RSS</option>
+            <option value="html">HTML</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <input class="form-control" name="url" placeholder="https://..." required>
+        </div>
+      </div>
+      <div class="mt-2">
+        <button class="btn btn-success">Add source</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <h3 class="mb-3">Existing sources</h3>
+    <ul class="list-group">
+      {% for s in sources %}
+      <li class="list-group-item d-flex align-items-center justify-content-between">
+        <div>
+          <strong>{{ s.name }}</strong> <span class="text-muted">({{ s.type }})</span>
+          <div class="small text-muted">{{ s.url }}</div>
+        </div>
+        <div class="btn-group">
+          <form method="post" action="{{ url_for('admin_toggle') }}">
+            <input name="token" placeholder="admin token" required class="form-control d-none">
+            <input type="hidden" name="id" value="{{ s.id }}">
+            <button class="btn btn-outline-{{ 'danger' if s.enabled else 'success' }}" type="submit">{{ 'Disable' if s.enabled else 'Enable' }}</button>
+          </form>
+          <form method="post" action="{{ url_for('admin_delete') }}">
+            <input name="token" placeholder="admin token" required class="form-control d-none">
+            <input type="hidden" name="id" value="{{ s.id }}">
+            <button class="btn btn-outline-secondary" type="submit">Delete</button>
+          </form>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}

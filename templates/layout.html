@@ -1,0 +1,58 @@
+<!-- templates/layout.html -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{% block title %}Geopolitics Live{% endblock %}</title>
+
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Optional icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    {% block head %}{% endblock %}
+  </head>
+  <body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom shadow-sm">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">🛰️ Geopolitics Live</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navMain">
+          <form class="ms-auto d-flex" role="search" method="get" action="{{ url_for('index') }}">
+            <input class="form-control me-2" name="q" placeholder="Search headlines..." value="{{ request.args.get('q', '') }}">
+            <button class="btn btn-primary" type="submit">Search</button>
+          </form>
+
+          <ul class="navbar-nav ms-3">
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('export_csv') }}">Export</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('admin_ui') }}">Admin</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container py-4">
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="py-4 bg-white border-top">
+      <div class="container text-muted small">
+        © {{ now().year }} Geopolitics Live — RSS-first aggregator. Respect robots.txt & site ToS.
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/ui.js') }}"></script>
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

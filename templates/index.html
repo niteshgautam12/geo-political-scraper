@@ -1,0 +1,48 @@
+<!-- templates/index.html -->
+{% extends "layout.html" %}
+{% block title %}Latest Geopolitics Headlines{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-lg-8">
+    <div class="d-flex align-items-center mb-3">
+      <h2 class="me-3 mb-0">Latest Headlines</h2>
+      <span class="text-muted small">Sources: {{ sources }}</span>
+    </div>
+
+    {% for a in items %}
+    <article class="card mb-3 shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">
+          <a class="stretched-link text-decoration-none" href="{{ url_for('article_view', article_id=a.id) }}">{{ a.title }}</a>
+        </h5>
+        <div class="text-muted small mb-2">{{ a.source }} • {{ a.published or '' }} • fetched {{ a.fetched_at }}</div>
+        <p class="card-text text-truncate">{{ a.summary or '' }}</p>
+      </div>
+    </article>
+    {% else %}
+      <div class="alert alert-secondary">No articles yet. Click <a href="{{ url_for('scrape_now') }}">Scrape now</a>.</div>
+    {% endfor %}
+
+  </div>
+
+  <aside class="col-lg-4">
+    <div class="position-sticky" style="top:18px;">
+      <div class="card mb-3">
+        <div class="card-body">
+          <h6 class="card-title">Quick Actions</h6>
+          <a href="{{ url_for('scrape_now') }}" class="btn btn-outline-primary w-100 mb-2"><i class="bi bi-arrow-repeat"></i> Scrape Now</a>
+          <a href="{{ url_for('export_csv') }}" class="btn btn-outline-secondary w-100"><i class="bi bi-download"></i> Export CSV</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">About</h6>
+          <p class="small text-muted mb-0">This aggregator prefers RSS feeds; falls back to link scanning. Configure sources in Admin.</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+</div>
+{% endblock %}
